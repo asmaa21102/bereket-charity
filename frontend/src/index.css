@@ -1,0 +1,150 @@
+@import 'tailwindcss';
+
+/* Bereket design tokens: navy = trust, green = growth, warm amber = urgent.
+   Colours are CSS variables so dark mode only swaps the variables. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Readex Pro', 'IBM Plex Sans Arabic', ui-sans-serif, sans-serif;
+
+    --color-bg: var(--bg);
+    --color-surface: var(--surface);
+    --color-surface-2: var(--surface-2);
+    --color-line: var(--line);
+    --color-ink: var(--ink);
+    --color-ink-2: var(--ink-2);
+    --color-muted: var(--muted);
+    --color-navy: var(--navy);
+    --color-navy-2: var(--navy-2);
+    --color-green: var(--green);
+    --color-green-2: var(--green-2);
+    --color-green-soft: var(--green-soft);
+    --color-amber: var(--amber);
+    --color-amber-soft: var(--amber-soft);
+    --color-rose: var(--rose);
+    --color-rose-soft: var(--rose-soft);
+    --color-sky: var(--sky);
+    --color-sky-soft: var(--sky-soft);
+
+    --radius-card: 1.5rem;
+    --shadow-card: 0 1px 2px rgb(11 37 69 / 0.04), 0 12px 32px -16px rgb(11 37 69 / 0.18);
+    --shadow-lift: 0 2px 4px rgb(11 37 69 / 0.05), 0 24px 48px -20px rgb(11 37 69 / 0.28);
+}
+
+:root {
+    --bg: #f6f8f5;
+    --surface: #ffffff;
+    --surface-2: #eef3ef;
+    --line: rgb(11 37 69 / 0.1);
+    --ink: #0b1f33;
+    --ink-2: #33475c;
+    --muted: #64768a;
+    --navy: #0b2545;
+    --navy-2: #13406b;
+    --green: #059669;
+    --green-2: #047857;
+    --green-soft: #d1fae5;
+    --amber: #d97706;
+    --amber-soft: #fef3c7;
+    --rose: #e11d48;
+    --rose-soft: #ffe4e6;
+    --sky: #0284c7;
+    --sky-soft: #e0f2fe;
+    color-scheme: light;
+}
+
+.dark {
+    --bg: #071423;
+    --surface: #0c1f33;
+    --surface-2: #11293f;
+    --line: rgb(200 220 240 / 0.12);
+    --ink: #eef4fa;
+    --ink-2: #c4d2e0;
+    --muted: #8ba0b5;
+    --navy: #1d4f80;
+    --navy-2: #2a6aa8;
+    --green: #34d399;
+    --green-2: #10b981;
+    --green-soft: rgb(16 185 129 / 0.15);
+    --amber: #fbbf24;
+    --amber-soft: rgb(251 191 36 / 0.14);
+    --rose: #fb7185;
+    --rose-soft: rgb(251 113 133 / 0.14);
+    --sky: #38bdf8;
+    --sky-soft: rgb(56 189 248 / 0.14);
+    color-scheme: dark;
+}
+
+html {
+    background: var(--bg);
+}
+body {
+    @apply bg-bg text-ink font-sans antialiased;
+    min-height: 100vh;
+}
+:lang(en) body,
+:lang(tr) body {
+    font-family: 'Readex Pro', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+}
+h1,
+h2,
+h3 {
+    @apply font-display;
+}
+::selection {
+    background: var(--green);
+    color: white;
+}
+:focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 2px;
+}
+
+@layer components {
+    .card {
+        @apply bg-surface border-line rounded-[var(--radius-card)] border shadow-[var(--shadow-card)];
+    }
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold transition select-none disabled:cursor-not-allowed disabled:opacity-50;
+    }
+    .btn-primary {
+        @apply bg-green hover:bg-green-2 text-white shadow-[0_10px_24px_-10px_var(--green)] active:scale-[0.98];
+    }
+    .btn-navy {
+        @apply bg-navy hover:bg-navy-2 text-white active:scale-[0.98];
+    }
+    .btn-ghost {
+        @apply border-line text-ink hover:bg-surface-2 border;
+    }
+    .btn-danger {
+        @apply bg-rose-soft text-rose hover:brightness-95;
+    }
+    .input {
+        @apply border-line bg-surface text-ink placeholder:text-muted focus:border-green w-full rounded-2xl border px-4 py-3 text-sm transition outline-none focus:ring-4 focus:ring-[color-mix(in_oklab,var(--green)_18%,transparent)];
+    }
+    .label {
+        @apply text-ink mb-1.5 block text-sm font-semibold;
+    }
+    .chip {
+        @apply border-line text-ink-2 hover:border-green inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition;
+    }
+    .chip-on {
+        @apply border-green bg-green-soft text-green-2;
+    }
+    .skeleton {
+        background: linear-gradient(90deg, var(--surface-2) 0%, color-mix(in oklab, var(--surface-2) 60%, white) 50%, var(--surface-2) 100%);
+        background-size: 200% 100%;
+        animation: shimmer 1.4s infinite linear;
+    }
+}
+
+@keyframes shimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+}
+
+@media print {
+    .no-print { display: none !important; }
+    body { background: white; }
+}
